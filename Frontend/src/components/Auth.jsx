@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Auth.css";
-import { MdOutlineArrowBack } from "react-icons/md";
 import axios from "axios";
+import { MdOutlineArrowBack } from "react-icons/md";
 
 const Auth = () => {
   const [role, setRole] = useState(null);
