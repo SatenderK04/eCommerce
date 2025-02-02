@@ -1,10 +1,11 @@
 import express from "express";
 import cors from "cors";
-
+import cookieParser from "cookie-parser";
 import { connectDB } from "./config/initDB.js";
 import userRoutes from "./routes/userRoutes.js";
-
 const app = express();
+
+app.use(cookieParser());
 app.use(express.json());
 const port = 3000;
 app.use(
@@ -12,6 +13,7 @@ app.use(
     origin: "http://localhost:5173",
     method: ["GET", "PUT", "DELETE", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // necessar to send cookies
   })
 );
 

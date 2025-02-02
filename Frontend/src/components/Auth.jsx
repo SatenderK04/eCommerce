@@ -27,7 +27,8 @@ const Auth = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/users/signup",
-        userData
+        userData,
+        { withCredentials: true } // necessary to send cookies
       );
       console.log("Signup successful:", response.data);
       navigate("/home");
