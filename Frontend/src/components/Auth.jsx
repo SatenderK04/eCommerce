@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/Auth.css";
 import { MdOutlineArrowBack } from "react-icons/md";
 import axios from "axios";
@@ -9,6 +10,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
   const handleRoleToggle = () => {
     setRole(null);
@@ -16,18 +18,19 @@ const Auth = () => {
 
   const handleSignup = async () => {
     const userData = {
+      username: username,
       email: email,
       password: password,
-      username: username,
       role: role,
     };
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/signup",
+        "http://localhost:3000/users/signup",
         userData
       );
       console.log("Signup successful:", response.data);
+      navigate("/home");
     } catch (error) {
       console.error(
         "Signup error:",

@@ -17,7 +17,7 @@ const TopNav = () => {
           </a>
         </span>
         <div className="searchBar">
-          <input type="text" placeholder=" Shoes, Shirts ..." />
+          <input type="text" placeholder="Shoes, Shirts ..." />
           <a href="#">
             <AiOutlineSearch size={30} />
           </a>
