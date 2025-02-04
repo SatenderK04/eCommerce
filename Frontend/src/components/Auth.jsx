@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Auth.css";
 import axios from "axios";
@@ -10,7 +10,19 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage(""); // Clear message after 3s
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup on component unmount
+    }
+  }, [errorMessage]);
 
   const handleRoleToggle = () => {
     setRole(null);
@@ -30,8 +42,22 @@ const Auth = () => {
         userData,
         { withCredentials: true } // necessary to send cookies
       );
-      console.log("Signup successful:", response.data);
-      navigate("/home");
+      console.log("Signup successful:", response.data.user);
+      // setCurrentUser(response.data.user);
+
+      // navigate("/home", {
+      //   state: { currentUser: response.data.user.username },
+      // });
+      if (
+        response.data.user.role === "seller" ||
+        response.data.user.role === "Seller"
+      ) {
+        navigate("/seller");
+      } else {
+        navigate("/home", {
+          state: { currentUser: response.data.user.username },
+        });
+      }
     } catch (error) {
       console.error(
         "Signup error:",
@@ -40,8 +66,37 @@ const Auth = () => {
     }
   };
 
-  const handleLogin = () => {
-    console.log("login");
+  const handleLogin = async () => {
+    const loginData = {
+      email: email,
+      password: password,
+      role: role,
+    };
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/users/login",
+        loginData,
+        { withCredentials: true }
+      );
+      console.log("User logged In", response.data.user);
+      // setCurrentUser(response.data.user);
+      if (
+        response.data.user.role === "seller" ||
+        response.data.user.role === "Seller"
+      ) {
+        navigate("/seller");
+      } else {
+        navigate("/home", {
+          state: { currentUser: response.data.user.username },
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Something went wrong! Please try again.", error);
+      }
+    }
   };
 
   return (
@@ -52,11 +107,11 @@ const Auth = () => {
             <span>
               <br /> Please select your role to continue
             </span>
-            <button onClick={() => setRole("Admin")} className="role-btn">
-              Admin
+            <button onClick={() => setRole("Seller")} className="role-btn">
+              Seller
             </button>
-            <button onClick={() => setRole("User")} className="role-btn">
-              User
+            <button onClick={() => setRole("Buyer")} className="role-btn">
+              Buyer
             </button>
           </div>
         ) : (
@@ -108,6 +163,7 @@ const Auth = () => {
                   Sign Up
                 </button>
               )}
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
               <p onClick={() => setIsLogin(!isLogin)} className="toggle-link">
                 {isLogin
                   ? "Don't have an account? Sign Up"

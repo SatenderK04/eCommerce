@@ -17,8 +17,9 @@ const Products = () => {
   ];
   return (
     <>
-      <h2 className="main-heading">Products For You</h2>
-      <section className="main-content" id="shop">
+      {/* <h2 className="main-heading">Products For You</h2> */}
+      <div className="categories"></div>
+      {/* <section className="main-content" id="shop">
         {Products.map((product, index) => (
           <div className="product-card" key={index}>
             <div className="img">
@@ -44,7 +45,7 @@ const Products = () => {
             </div>
           </div>
         ))}
-      </section>
+      </section> */}
     </>
   );
 };
