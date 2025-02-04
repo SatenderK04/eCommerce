@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/initDB.js";
 import userRoutes from "./routes/userRoutes.js";
+import sellerRoutes from "./routes/sellerRoutes.js";
 const app = express();
 
 app.use(cookieParser());
@@ -22,6 +23,7 @@ connectDB();
 
 // ROUTES
 app.use("/users", userRoutes);
+app.use("/seller", sellerRoutes);
 
 app.listen(port, () => {
   console.log(`server is active on ${port}`);

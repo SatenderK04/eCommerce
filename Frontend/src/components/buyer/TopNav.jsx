@@ -1,9 +1,9 @@
 import React from "react";
-import "../css/TopNav.css";
+import "../../css/TopNav.css";
 import { useState } from "react";
 import { FaShoppingCart, FaHeart, FaUser } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import logo from "../assets/images/Mainlogo.png";
+import logo from "../../assets/images/Mainlogo.png";
 // import { currentUser } from "./Auth";
 import { useLocation } from "react-router-dom";
 

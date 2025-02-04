@@ -1,9 +1,9 @@
 import React from "react";
-import TopNav from "../components/TopNav";
-import Sliders from "../components/Sliders";
-import Products from "../components/Products";
+import TopNav from "../components/buyer/TopNav";
+import Sliders from "../components/buyer/Sliders";
+import Products from "../components/buyer/Products";
 import axios from "axios";
-import Footer from "../components/Footer";
+import Footer from "../components/buyer/Footer";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
