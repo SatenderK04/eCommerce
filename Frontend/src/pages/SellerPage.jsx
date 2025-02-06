@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import AddProduct from "../components/seller/AddProduct";
-import ProductList from "../components/seller/ProductList";
+
 import axios from "axios";
 import SellerPannel from "../components/seller/SellerPannel";
-import ProductManagement from "../components/seller/ProductManagement";
 import CustomerReview from "../components/seller/CustomerReview";
 import OrderManagement from "../components/seller/OrderManagement";
 import ProfileSetting from "../components/seller/ProfileSetting";
 import Payments from "../components/seller/Payments";
+import "../css/seller/SellerPage.css";
+import ProductList from "../components/seller/ProductList";
+import AddProduct from "../components/seller/AddProduct";
 /*
 1️⃣ Seller Overview Panel (Dashboard Stats)
 📌 Displays key business insights at a glance:
@@ -66,23 +67,34 @@ const SellerPage = () => {
     description: "",
     price: "",
     stock: "",
+    category_id: "",
+    seller_id: "",
   });
-  const [productID, setProductID] = useState(null);
+  const fetchProducts = async () => {
+    try {
+      const userResponse = await axios.get("http://localhost:3000/users/me", {
+        withCredentials: true,
+      });
+
+      const seller_id = userResponse.data.id; // Get seller_id
+
+      const response = await axios.get(
+        `http://localhost:3000/seller/products?seller_id=${encodeURIComponent(
+          seller_id
+        )}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      setProducts(response.data.products);
+      console.log(products);
+    } catch (error) {
+      console.error("Error fetching products:", error.response?.data || error);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/seller/products",
-          { withCredentials: true }
-        );
-        setProducts(response.data.products);
-        // console.log(response.data.products);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
     fetchProducts();
   }, []);
 
@@ -93,19 +105,50 @@ const SellerPage = () => {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
+      const userResponse = await axios.get("http://localhost:3000/users/me", {
+        withCredentials: true,
+      });
+
+      const seller_id = userResponse.data.id;
+      console.log("seller", seller_id);
+
+      setNewProduct((prev) => ({
+        ...prev,
+        seller_id: seller_id,
+      }));
+      console.log("new", newProduct);
       const response = await axios.post(
         "http://localhost:3000/seller/products",
         newProduct,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
-      setProducts([...products, response.data]);
-      setNewProduct({ name: "", description: "", price: "", stock: "" });
+
+      console.log(response);
+      if (response.status === 200) {
+        console.log("product added");
+        fetchProducts();
+      } else {
+        console.log("err product addition");
+      }
+      // Fetch updated products list
+      // Reset the form
+      setNewProduct({
+        name: "",
+        description: "",
+        price: "",
+        stock: "",
+        category_id: "",
+        seller_id: "",
+      });
+      console.log(products);
     } catch (error) {
       console.error("Error adding product:", error);
     }
   };
 
-  const handleDeleteProducts = async (productID) => {
+  const handleDeleteProduct = async (productID) => {
     try {
       const response = await axios.delete(
         `http://localhost:3000/seller/products/${productID}`,
@@ -121,24 +164,49 @@ const SellerPage = () => {
       console.log("Error Deleting the product");
     }
   };
+  const handleEditProduct = async (productID, updatedData) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/seller/products/${productID}`,
+        updatedData,
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        setProducts(
+          products.map((product) =>
+            product.id === productID ? { ...product, ...updatedData } : product
+          )
+        );
+      }
+    } catch (err) {
+      console.error("Error updating product:", err);
+    }
+  };
+
   return (
     <>
-      <AddProduct
-        handleAddProduct={handleAddProduct}
-        handleChange={handleChange}
-        newProduct={newProduct}
-      />
-      <ProductList
-        products={products}
-        setProductID={setProductID}
-        handleDeleteProducts={handleDeleteProducts}
-      />
-      <SellerPannel />
-      <Payments />
-      <ProductManagement />
-      <CustomerReview />
-      <OrderManagement />
-      <ProfileSetting />
+      <div className="sellerDashboard">
+        <SellerPannel />
+
+        <div className="section">
+          <AddProduct
+            handleAddProduct={handleAddProduct}
+            handleChange={handleChange}
+            newProduct={newProduct}
+            // id={id}
+          />
+          <ProfileSetting />
+        </div>
+        <ProductList
+          products={products}
+          handleDeleteProduct={handleDeleteProduct}
+          handleEditProduct={handleEditProduct}
+        />
+        <Payments />
+        <OrderManagement />
+        <CustomerReview />
+      </div>
     </>
   );
 };

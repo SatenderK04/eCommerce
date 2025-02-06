@@ -52,10 +52,12 @@ const Auth = () => {
         response.data.user.role === "seller" ||
         response.data.user.role === "Seller"
       ) {
-        navigate("/seller");
+        navigate("/seller", {
+          state: { currentUser: response.data.user },
+        });
       } else {
         navigate("/home", {
-          state: { currentUser: response.data.user.username },
+          state: { currentUser: response.data.user },
         });
       }
     } catch (error) {
@@ -84,10 +86,14 @@ const Auth = () => {
         response.data.user.role === "seller" ||
         response.data.user.role === "Seller"
       ) {
-        navigate("/seller");
+        navigate("/seller", {
+          state: {
+            currentUser: response.data.user,
+          },
+        });
       } else {
         navigate("/home", {
-          state: { currentUser: response.data.user.username },
+          state: { currentUser: response.data.user },
         });
       }
     } catch (error) {

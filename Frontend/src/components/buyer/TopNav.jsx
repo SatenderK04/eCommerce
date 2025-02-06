@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/TopNav.css";
+import "../../css/buyer/TopNav.css";
 import { useState } from "react";
 import { FaShoppingCart, FaHeart, FaUser } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -14,7 +14,7 @@ const TopNav = ({ handleLogOut }) => {
   const currentUser = location.state?.currentUser;
   return (
     <>
-      {console.log(currentUser)}
+      {/* {console.log(currentUser)} */}
       <div className="top-nav">
         <a href="#">
           <img src={logo} id="logo-image" alt="Main Logo" />

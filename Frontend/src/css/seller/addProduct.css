@@ -1,0 +1,66 @@
+.product-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  align-items: center;
+  height: 69vh;
+  border: 1px solid red;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+.product-form h3 {
+  font-size: 1.5rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.product-form input,
+.product-form textarea,
+.product-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border 0.3s ease;
+}
+
+.product-form input:focus,
+.product-form textarea:focus,
+.product-form select:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.product-form textarea {
+  height: 120px;
+  resize: none;
+}
+
+.product-form select {
+  cursor: pointer;
+  appearance: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='18' height='18' fill='gray'><path d='M7 10l5 5 5-5z'></path></svg>")
+    no-repeat right 10px center;
+  background-size: 18px;
+  padding-right: 30px;
+}
+
+.product-form button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.product-form button:hover {
+  background-color: #388e3c;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/Products.css";
+import "../../css/buyer/Products.css";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { FaStarHalfAlt } from "react-icons/fa"; // Importing half-star icon
 

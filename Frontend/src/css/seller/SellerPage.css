@@ -1,0 +1,8 @@
+.sellerDashboard {
+  padding: 5px 10px;
+}
+
+.section {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../css/Sliders.css";
+import "../../css/buyer/Sliders.css";
 import "../../App.css";
 
 const Sliders = () => {

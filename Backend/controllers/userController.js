@@ -23,13 +23,9 @@ const createUser = async (req, res) => {
       // const user = result;
       // console.log(result);
       // Generate TOKEN
-      const token = jwt.sign(
-        { userId: result.insertId, email, role },
-        jwt_secret,
-        {
-          expiresIn: "2h",
-        }
-      );
+      const token = jwt.sign({ id: result.insertId, email, role }, jwt_secret, {
+        expiresIn: "2h",
+      });
 
       res.cookie("jwt", token, { httpOnly: true, secure: false }); // set secure to true in production ("false"  allows to send cookie through http also)
       const query = `SELECT * FROM users WHERE email = ?`;
@@ -43,7 +39,7 @@ const createUser = async (req, res) => {
         res.status(200).json({
           message: "User Created successfully",
           user: {
-            id: user.userId,
+            id: user.id,
             email: user.email,
             role: user.role,
             username: user.name,
@@ -93,7 +89,7 @@ const logInUser = (req, res) => {
 
     // Generate JWT Token
     const token = jwt.sign(
-      { userId: user.userId, email: user.email, role: user.role },
+      { id: user.id, email: user.email, role: user.role },
       jwt_secret,
       { expiresIn: "2h" }
     );
@@ -109,7 +105,7 @@ const logInUser = (req, res) => {
     return res.status(200).json({
       message: "Login successful",
       user: {
-        id: user.userId,
+        id: user.id,
         email: user.email,
         role: user.role,
         username: user.name,
@@ -121,6 +117,7 @@ const logInUser = (req, res) => {
 // GET CURRENT USER
 const getCurrentUser = (req, res) => {
   res.status(200).json(req.user);
+  // console.log(req.user);
 };
 
 const logOutUser = (req, res) => {

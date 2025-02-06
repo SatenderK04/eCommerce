@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./config/initDB.js";
 import userRoutes from "./routes/userRoutes.js";
 import sellerRoutes from "./routes/sellerRoutes.js";
+
 const app = express();
 
 app.use(cookieParser());

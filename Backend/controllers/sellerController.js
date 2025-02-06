@@ -27,22 +27,30 @@ const addProduct = (req, res) => {
 /// GET ALL THE PRODUCTS
 
 const getProducts = (req, res) => {
+  const { seller_id } = req.query; // Extract seller_id from query params (e.g., ?seller_id=123)
+
+  if (!seller_id) {
+    return res.status(400).json({ message: "Seller ID is required!" });
+  }
+
   const query = `SELECT * FROM products WHERE seller_id = ?`;
+
   try {
-    db.query(query, [33], (err, result) => {
+    db.query(query, [seller_id], (err, result) => {
       if (err) {
-        return res.status(401).josn({ message: "Product fetch failed !" });
+        console.error("Error fetching products:", err);
+        return res.status(500).json({ message: "Product fetch failed!" });
       }
-      const products = result;
+
       res
         .status(200)
-        .json({ message: "Products fetched succesffully", products });
+        .json({ message: "Products fetched successfully", products: result });
     });
   } catch (error) {
-    console.log("Error fetching Products", error);
+    console.error("Error fetching products:", error);
     return res
       .status(500)
-      .json({ message: "Something went Wrong (Product fetch)" });
+      .json({ message: "Something went wrong (Product fetch)" });
   }
 };
 
@@ -66,5 +74,43 @@ const deleteProduct = (req, res) => {
       .json({ message: "Server Error (deleting the product)" });
   }
 };
+const editProduct = (req, res) => {
+  const { id } = req.params;
+  const { name, description, price, stock, category_id } = req.body;
 
-export { addProduct, getProducts, deleteProduct };
+  if (!name || !price || !stock) {
+    return res
+      .status(400)
+      .json({ message: "Name, price, and stock are required fields!" });
+  }
+
+  const query = `
+    UPDATE products 
+    SET name = ?, description = ?, price = ?, stock = ?, category_id = ?
+    WHERE id = ?
+  `;
+
+  try {
+    db.query(
+      query,
+      [name, description, price, stock, category_id, id],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating product:", err);
+          return res.status(500).json({ message: "Error updating product" });
+        }
+
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ message: "Product not found" });
+        }
+
+        res.status(200).json({ message: "Product updated successfully" });
+      }
+    );
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).json({ message: "Server Error (updating the product)" });
+  }
+};
+
+export { addProduct, getProducts, deleteProduct, editProduct };
