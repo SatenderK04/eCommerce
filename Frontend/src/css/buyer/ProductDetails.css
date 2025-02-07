@@ -1,0 +1,41 @@
+.container {
+  border: 1px solid red;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background-color: green;
+  height: 95vh;
+  width: 60vw;
+  border-radius: 10px;
+  display: flex;
+}
+.close {
+  font-weight: 500;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+.left-container {
+  border: 1px solid red;
+  width: 50%;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid white;
+  width: 50%;
+}
+
+.left-container .images {
+  border: 1px solid blue;
+  height: 80%;
+}
+
+.left-container .actions {
+  /* background-color: purple; */
+  height: 20%;
+  border: 1px solid purple;
+}

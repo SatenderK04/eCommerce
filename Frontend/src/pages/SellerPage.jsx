@@ -28,14 +28,12 @@ Update Product Details
 Delete Products
 3️⃣ Order Management
 📌 Helps sellers track and manage customer orders efficiently:
-
 View All Orders (Order ID, customer name, date, status)
 Filter by Status (Pending, Processing, Shipped, Delivered, Canceled)
 Update Order Status (Processing ➝ Shipped ➝ Delivered)
 View Order Details (Products, Customer Info, Payment Status)
 4️⃣ Earnings & Payouts
 📌 Tracks the seller’s financial performance:
-
 Total Earnings (Month-wise & Yearly)
 Pending Payouts (Withdrawable Amount)
 Commission Breakdown (Platform Fees, Taxes)
@@ -187,7 +185,7 @@ const SellerPage = () => {
   return (
     <>
       <div className="sellerDashboard">
-        <SellerPannel />
+        <SellerPannel totalProducts={products.length} />
 
         <div className="section">
           <AddProduct

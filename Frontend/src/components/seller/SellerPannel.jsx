@@ -6,14 +6,14 @@ import { FaBox } from "react-icons/fa6";
 import { MdPendingActions } from "react-icons/md";
 import { SiTask } from "react-icons/si";
 
-const SellerPannel = () => {
+const SellerPannel = ({ totalProducts }) => {
   return (
     <>
       <div className="panelContainer">
         <div className="itemContainer">
           <div className="item">
             <SiTask />
-            <p className="value">18</p>
+            <p className="value">{totalProducts}</p>
           </div>
           Total Products
         </div>

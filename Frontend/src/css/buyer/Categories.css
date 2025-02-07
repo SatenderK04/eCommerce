@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+body {
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.main-heading {
+  margin: 1rem 0;
+  /* border: 1px solid black; */
+  text-align: left;
+  padding-left: 1rem;
+  /* margin-left: 1rem; */
+}
+
+/* .product-container .categories {
+  display: flex;
+  height: 100px;
+  border: 1px solid red;
+  width: 100%;
+} */
+
+.categories {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+}
+
+.category-item {
+  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  background: #f9f9f9;
+  padding: 15px 0;
+  border-radius: 8px;
+  transition: transform 0.3s ease-in-out;
+  width: 140px;
+  text-align: center;
+}
+
+.category-item img {
+  /* border: 1px solid red; */
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  /* border-radius: 50%; */
+  margin-bottom: 10px;
+}
+
+.category-item p {
+  padding: 0.25rem 0;
+  /* border: 1px solid blue; */
+  width: 100%;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.category-item:hover {
+  transform: scale(1.05);
+}

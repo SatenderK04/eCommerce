@@ -59,7 +59,7 @@ const TopNav = ({ handleLogOut }) => {
               onMouseEnter={() => setShowProfileOpt(true)}
               onMouseLeave={() => setShowProfileOpt(false)}
             >
-              <p className="profile">{currentUser}</p>
+              <p className="profile">{currentUser.username}</p>
 
               {showProfileOpt && (
                 <div className="profile-menu">

@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./config/initDB.js";
 import userRoutes from "./routes/userRoutes.js";
 import sellerRoutes from "./routes/sellerRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ connectDB();
 // ROUTES
 app.use("/users", userRoutes);
 app.use("/seller", sellerRoutes);
+app.use("/products", productRoutes);
 
 app.listen(port, () => {
   console.log(`server is active on ${port}`);
