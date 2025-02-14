@@ -20,6 +20,13 @@ const AddProduct = ({ handleAddProduct, handleChange, newProduct }) => {
           onChange={handleChange}
           required
         />
+        <textarea
+          name="highlights"
+          placeholder="Key Highlights (comma separated)"
+          value={newProduct.highlights}
+          onChange={handleChange}
+          required
+        />
         <input
           type="number"
           name="price"

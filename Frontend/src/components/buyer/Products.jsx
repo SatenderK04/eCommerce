@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../css/buyer/Products.css";
 import ProductPost from "./ProductPost";
 import ProductDetails from "./ProductDetails";
 
 const Products = ({ products, showDetails, setShowDetails }) => {
+  const [selectedProduct, setSelectedProduct] = useState({});
   return (
     <div className="products-container">
-      {showDetails && <ProductDetails setShowDetails={setShowDetails} />}
+      {showDetails && (
+        <ProductDetails
+          setShowDetails={setShowDetails}
+          selectedProduct={selectedProduct}
+        />
+      )}
       <h2>Products for You</h2>
       <ProductPost
         products={products}
-        // showDetails={showDetails}
         setShowDetails={setShowDetails}
+        setSelectedProduct={setSelectedProduct}
       />
       <h2>Just Arrived – Be the First to Own!</h2>
       <ProductPost products={products} />

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../css/buyer/ProductPost.css";
 import img1 from "../../assets/images/bag.jpg";
 
-const ProductPost = ({ products, setShowDetails }) => {
+const ProductPost = ({ products, setShowDetails, setSelectedProduct }) => {
   if (!Array.isArray(products)) {
     console.error("Expected 'products' to be an array but received:", products);
     return null;
@@ -31,6 +31,7 @@ const ProductPost = ({ products, setShowDetails }) => {
             className="post-button"
             onClick={() => {
               setShowDetails(true);
+              setSelectedProduct(product);
             }}
           >
             View Details

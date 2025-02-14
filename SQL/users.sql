@@ -17,3 +17,5 @@ CHANGE COLUMN userId id INT AUTO_INCREMENT;
 SELECT DISTINCT role FROM users;
 
 SELECT * FROM users WHERE role = "Seller";
+
+SELECT * FROM users WHERE id = 33;

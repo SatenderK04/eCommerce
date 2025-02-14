@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
 import SellerPannel from "../components/seller/SellerPannel";
 import CustomerReview from "../components/seller/CustomerReview";
@@ -9,6 +8,7 @@ import Payments from "../components/seller/Payments";
 import "../css/seller/SellerPage.css";
 import ProductList from "../components/seller/ProductList";
 import AddProduct from "../components/seller/AddProduct";
+
 /*
 1️⃣ Seller Overview Panel (Dashboard Stats)
 📌 Displays key business insights at a glance:
@@ -68,6 +68,8 @@ const SellerPage = () => {
     category_id: "",
     seller_id: "",
   });
+  const [newProductId, setNewProductId] = useState(null);
+
   const fetchProducts = async () => {
     try {
       const userResponse = await axios.get("http://localhost:3000/users/me", {
@@ -75,7 +77,7 @@ const SellerPage = () => {
       });
 
       const seller_id = userResponse.data.id; // Get seller_id
-
+      console.log(seller_id);
       const response = await axios.get(
         `http://localhost:3000/seller/products?seller_id=${encodeURIComponent(
           seller_id
@@ -86,7 +88,10 @@ const SellerPage = () => {
       );
 
       setProducts(response.data.products);
-      console.log(products);
+      setNewProductId("hh", response.data);
+
+      // console.log(products);
+      // console.log("prodc", newProductId);
     } catch (error) {
       console.error("Error fetching products:", error.response?.data || error);
     }
@@ -126,6 +131,7 @@ const SellerPage = () => {
       console.log(response);
       if (response.status === 200) {
         console.log("product added");
+        // console.log("pp", response.data);
         fetchProducts();
       } else {
         console.log("err product addition");

@@ -1,33 +1,41 @@
 import { db } from "../config/initDB.js";
 
 const addProduct = (req, res) => {
-  const { name, description, price, stock, category_id, seller_id } = req.body;
-  if (!name || !price || !stock) {
-    return res.status(401).json({ message: "All fields are required !" });
+  const {
+    name,
+    description,
+    highlights,
+    price,
+    stock,
+    category_id,
+    seller_id,
+  } = req.body;
+
+  if (!name || !price || !stock || !highlights) {
+    return res.status(401).json({ message: "All fields are required!" });
   }
+
   try {
-    const query = `INSERT INTO products (name, description, price, stock, category_id, seller_id) VALUES (?,?,?,?,?,?)`;
+    const query = `INSERT INTO products (name, description,  price, stock, category_id, seller_id, highlights) VALUES (?, ?, ?, ?, ?, ?, ?)`;
     db.query(
       query,
-      [name, description, price, stock, category_id, seller_id],
+      [name, description, price, stock, category_id, seller_id, highlights],
       (err, result) => {
         if (err) {
-          return res.status(401).json({ message: "Error Adding product" });
+          return res.status(401).json({ message: "Error Adding Product" });
         }
-        const product = result;
-        res.status(200).json({ message: "Product Added", product });
+        res.status(200).json({ message: "Product Added", product: result });
       }
     );
   } catch (err) {
-    console.log("Product not added !!", err);
-    res.status(500).json("Product Server Error !", err);
+    console.error("Product not added!", err);
+    res.status(500).json({ message: "Product Server Error!" });
   }
 };
 
-/// GET ALL THE PRODUCTS
-
+// GET ALL PRODUCTS
 const getProducts = (req, res) => {
-  const { seller_id } = req.query; // Extract seller_id from query params (e.g., ?seller_id=123)
+  const { seller_id } = req.query;
 
   if (!seller_id) {
     return res.status(400).json({ message: "Seller ID is required!" });
@@ -41,7 +49,6 @@ const getProducts = (req, res) => {
         console.error("Error fetching products:", err);
         return res.status(500).json({ message: "Product fetch failed!" });
       }
-
       res
         .status(200)
         .json({ message: "Products fetched successfully", products: result });
@@ -54,46 +61,49 @@ const getProducts = (req, res) => {
   }
 };
 
+// DELETE PRODUCT
 const deleteProduct = (req, res) => {
   const { id } = req.params;
   const query = `DELETE FROM products WHERE id = ?`;
+
   try {
     db.query(query, [id], (err, result) => {
       if (err) {
-        console.log("Error occured deleting product", err);
-        return res.status(401).json({ message: "Erro deleting product" });
+        console.log("Error deleting product", err);
+        return res.status(401).json({ message: "Error deleting product" });
       }
 
-      const deleteResponse = result;
-      res.status(200).json({ message: "product deleted", deleteResponse });
+      res
+        .status(200)
+        .json({ message: "Product deleted", deleteResponse: result });
     });
   } catch (err) {
-    console.log("Error Deleting !!");
+    console.error("Error deleting product!", err);
     return res
       .status(500)
       .json({ message: "Server Error (deleting the product)" });
   }
 };
+
+// UPDATE PRODUCT
 const editProduct = (req, res) => {
   const { id } = req.params;
-  const { name, description, price, stock, category_id } = req.body;
+  const { name, description, highlights, price, stock, category_id } = req.body;
 
-  if (!name || !price || !stock) {
-    return res
-      .status(400)
-      .json({ message: "Name, price, and stock are required fields!" });
+  if (!name || !price || !stock || !highlights) {
+    return res.status(400).json({ message: "All fields are required!" });
   }
 
   const query = `
     UPDATE products 
-    SET name = ?, description = ?, price = ?, stock = ?, category_id = ?
+    SET name = ?, description = ?, highlights = ?, price = ?, stock = ?, category_id = ?
     WHERE id = ?
   `;
 
   try {
     db.query(
       query,
-      [name, description, price, stock, category_id, id],
+      [name, description, highlights, price, stock, category_id, id],
       (err, result) => {
         if (err) {
           console.error("Error updating product:", err);
